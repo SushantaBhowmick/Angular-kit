@@ -1,3 +1,7 @@
-<div class="flex min-h-[85.3vh] justify-center items-center">
+<div class="flex flex-col min-h-screen justify-center items-center">
     <p>notification works!</p>
+  <div  *ngIf="user">
+    <p>name:{{user.name}}</p>
+    <p>email:{{user.email}}</p>
+  </div>
 </div>
