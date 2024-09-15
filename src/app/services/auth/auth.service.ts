@@ -14,13 +14,13 @@ export class AuthService {
   constructor(private http:HttpClient) { }
 
   //signIn
-  signIn(credentials:{email:string;password:string}):Observable<any>{
-    return this.http.post(`${this.baseUrl}/login`,credentials,{withCredentials:true});
+  signIn(credentials:{username:string;password:string}):Observable<any>{
+    return this.http.post(`${this.baseUrl}/signin`,credentials,{withCredentials:true});
   }
 
   //signUp
-  signUp(credentials:{email:string;password:string}):Observable<any>{
-    return this.http.post(`${this.baseUrl}/register`,credentials);
+  signUp(credentials:{username:string;password:string}):Observable<any>{
+    return this.http.post(`${this.baseUrl}/signup`,credentials);
   }
 
   isLoggedIn():boolean{

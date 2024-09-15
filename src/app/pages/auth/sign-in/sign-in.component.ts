@@ -36,30 +36,32 @@ export class SignInComponent {
   onSubmit() {
     if(this.signInForm.invalid){
       this.toastService.showError('Invalid form')
+    }else{
+      const { email, password } = this.signInForm.value;
+      // Ensure email and password are strings
+      const usernameString: string = email ?? '';
+      const passwordString: string = password ?? '';
+  
+      this.isLoading = true;
+      this.errorMessage = null;
+  
+      this.authService.signIn({username:usernameString,password:passwordString}).subscribe({
+        next:(response)=>{
+          this.toastService.showSuccess(response.message)
+          localStorage.setItem('accessToken',response.accessToken)
+        },
+        error:(error)=>{
+          this.toastService.showError(error.error.message||"Internal server error!")
+        },
+        complete:()=>{
+          this.isLoading=false;
+          this.router.navigate(['/dashboard'])
+        }
+      })
+  
     }
     
-    const { email, password } = this.signInForm.value;
-    // Ensure email and password are strings
-    const emailString: string = email ?? '';
-    const passwordString: string = password ?? '';
-
-    this.isLoading = true;
-    this.errorMessage = null;
-
-    this.authService.signIn({email:emailString,password:passwordString}).subscribe({
-      next:(response)=>{
-        this.toastService.showSuccess(response.message)
-        localStorage.setItem('accessToken',response.accessToken)
-      },
-      error:(error)=>{
-        this.toastService.showError(error.error.message)
-      },
-      complete:()=>{
-        this.isLoading=false;
-        this.router.navigate(['/dashboard'])
-      }
-    })
-
+   
   }
 
 }
